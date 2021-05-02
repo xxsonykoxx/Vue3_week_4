@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta
+    http-equiv="X-UA-Compatible"
+    content="IE=edge"
+  >
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"
+  >
+  <meta
+    name="dicscription"
+    content="網頁的簡介"
+  >
+  <meta
+    name="keyword"
+    content="キーワード"
+  >
+  <meta
+    name="author"
+    content="製作人or公司名稱"
+  >
+  <meta
+    name="copyright"
+    content="版權"
+  >
+  <meta
+    name="format-detection"
+    content="telephone=no"
+  >
+  <title>☆Products☆</title>
+  <link
+    rel='stylesheet'
+    href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'
+    integrity='sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=='
+    crossorigin='anonymous'
+  />
+  <link
+    rel="stylesheet"
+    href="./dist/css/products.min.css"
+  >
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+  >
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400&family=Ubuntu:wght@300;400&display=swap"
+    rel="stylesheet"
+  >
+  <link
+    rel='stylesheet'
+    href='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.16.6/sweetalert2.min.css'
+    integrity='sha512-/D4S05MnQx/q7V0+15CCVZIeJcV+Z+ejL1ZgkAcXE1KZxTE4cYDvu+Fz+cQO9GopKrDzMNNgGK+dbuqza54jgw=='
+    crossorigin='anonymous'
+  />
+</head>
+
+<body>
+  <div id="app">
+    <div class="container">
+      <div class="text-end mt-4">
+        <button
+          class="btn openmodale"
+          @click="openAddModal"
+        >
+          Add Product
+        </button>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              分類
+            </th>
+            <th>產品名稱</th>
+            <th>
+              原價
+            </th>
+            <th>
+              售價
+            </th>
+            <th>
+              是否啟用
+            </th>
+            <th>
+              編輯
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="item in products"
+            :key="item.id"
+          >
+            <td>{{item.category}}</td>
+            <td>{{item.title}}</td>
+            <td>
+              {{item.origin_price}}
+            </td>
+            <td>
+              {{item.price}}
+            </td>
+            <td>
+              <span
+                class="text-success abled"
+                v-if="item.is_enabled"
+              >啟用</span>
+              <span
+                v-else
+                class="enabled"
+              >未啟用</span>
+            </td>
+            <td>
+              <div class="btn-group">
+                <button
+                  type="button"
+                  class="edit-btn openmodale"
+                  @click="openEditModal(item)"
+                >
+                  編輯
+                </button>
+                <button
+                  type="button"
+                  class="del-btn"
+                  @click="openDelModal(item)"
+                >
+                  刪除
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h5 class='footer'> ⸜(๑'ᵕ'๑)⸝ </h5>
+
+    <!-- Component ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ-->
+    <pagination
+      :pages="pagination"
+      @emit-pages="getDatas"
+    ></pagination>
+    <add-modal
+      :product="tempProduct"
+      :is-new="isNew"
+      @update="getDatas"
+    ></add-modal>
+    <delete-modal
+      :item="tempProduct"
+      @update="getDatas"
+    ></delete-modal>
+  </div>
+
+  <!-- Pagination ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ-->
+  <script
+    type="text/x-template"
+    id="pagination"
+  >
+  <ul class="pagenation">
+    <li class="left"
+    :class="{'disabled': pages.current_page === 1}"
+    ><i class="fas fa-caret-left"
+    @click.prevent="emitPages(pages.current_page - 1)"
+    ></i></li>
+    <li
+    v-for="(item, index) in pages.total_pages"
+            :key="index"
+            :class="{'active': item === pages.current_page}"
+    ><a href="" @click.prevent="emitPages(item)">{{item}}</a></li>
+    <li class="right"
+    :class="{'disabled': pages.current_page === pages.total_pages}"
+    ><i class="fas fa-caret-right"
+    @click.prevent="emitPages(pages.current_page + 1)"
+    ></i></li>
+  </ul>
+</script>
+
+  <!-- add & edit model ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ-->
+  <script
+    type="text/x-template"
+    id="addModal"
+  >
+      <div
+      class="modal modale"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <h3>產品資訊</h3>
+        </div>
+        <div class="modal-body">
+          <div class="left">
+            <div class="title">
+              <label for="title"> Title </label>
+              <input
+                type="text"
+                v-model="product.title"
+              >
+            </div>
+            <div class="category">
+              <label for=""> Category </label>
+              <input
+                type="text"
+                v-model="product.category"
+              >
+            </div>
+            <div class="unit">
+              <label for=""> Unit </label>
+              <input
+                type="text"
+                v-model="product.unit"
+              >
+            </div>
+            <div class="origin-price">
+              <label for="">Origin Price</label>
+              <input
+                type="number"
+                v-model.number="product.origin_price"
+              >
+            </div>
+            <div class="price">
+              <label for="">Price</label>
+              <input
+                type="number"
+                v-model.number="product.price"
+              >
+            </div>
+            <div class="description">
+              <label for="">Description</label>
+              <textarea  v-model="product.description" type="text" class="form-control">
+              </textarea>
+            </div>
+            <div class="description content">
+              <label for="">Content</label>
+              <textarea  v-model="product.content" type="text" class="form-control">
+              </textarea>
+            </div>
+          </div>
+          <div class="right">
+            <div class="image">
+              <label for="">Image</label>
+              <input
+                type="text"
+                v-model="product.image"
+              >
+              <div class="image-url">
+                <img
+                  alt=""
+                  :src="product.image"
+                >
+              </div>
+            </div>
+            <div class="is-enabled">
+              <label for="">Is Enabled</label>
+              <input
+                type="checkbox"
+                v-model="product.is_enabled"
+              >
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            class="btn-close closemodale"
+            aria-hidden="true"
+          >取消</button>
+          <button
+            class="btn-close add closemodale"
+            aria-hidden="true"
+            @click = "addProduct"
+          >
+            建立</button>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- delete model ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ-->
+  <script
+    type="text/x-template"
+    id="deleteModal"
+  >
+  <div
+  class="modal delmodale"
+  aria-hidden="true"
+>
+  <div class="delmodal-dialog">
+    <div class="modal-header">
+      <h3>刪除產品</h3>
+    </div>
+    <div class="modal-body">
+      <div>
+        <p> 您確定要移除 <span class="product-title">{{item.title}}</span> 嗎？ </p>
+        <p> 《 刪除後將無法復原 》 </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        class="btn-close closemodale"
+        aria-hidden="true"
+      >取消</button>
+      <button
+        class="btn-close add closemodale delbtn"
+        aria-hidden="true"
+      >
+        <a
+          class="creat"
+          @click="delProduct"
+        >確定</a></button>
+    </div>
+  </div>
+</div>
+  </script>
+
+  <!--☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ ☆.｡.:*・ﾟ-->
+  <script
+    src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.16.6/sweetalert2.all.min.js'
+    integrity='sha512-jQxNe7fqaqehR3t/JfoxC8y2dwkEIL/7a6JWbs6sQdSCI/6Kd0t2okI9nhuKeSUgM5JDTDgdUzLzSPovB2lOBQ=='
+    crossorigin='anonymous'
+  ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+  <script
+    src="./JS/products.js"
+    type="module"
+  ></script>
+
+</body>
+
+</html>

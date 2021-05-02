@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta
+    http-equiv="X-UA-Compatible"
+    content="IE=edge"
+  >
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"
+  >
+  <meta
+    name="dicscription"
+    content="網頁的簡介"
+  >
+  <meta
+    name="keyword"
+    content="キーワード"
+  >
+  <meta
+    name="author"
+    content="製作人or公司名稱"
+  >
+  <meta
+    name="copyright"
+    content="版權"
+  >
+  <meta
+    name="format-detection"
+    content="telephone=no"
+  >
+  <title>Login</title>
+  <link
+    rel="stylesheet"
+    href="./dist/css/login.min.css"
+  >
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+  >
+  <link
+    href='https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400&family=Ubuntu:wght@300;400&display=swap'
+    rel="stylesheet"
+  >
+</head>
+
+<body>
+  <div
+    class="container"
+    id="app"
+  >
+    <h2 class="title">Sign In</h2>
+    <div class="form">
+      <div class="account">
+        <label for="">Email</label>
+        <input
+          type="text"
+          class="email-input"
+          v-model="user.username"
+        >
+      </div>
+      <div class="password">
+        <label for="">Password</label>
+        <input
+          type="password"
+          class="password-input"
+          v-model="user.password"
+        >
+      </div>
+      <div class="enter">
+        <input
+          class="enter-btn"
+          type="button"
+          value="おk"
+          @click="login"
+        >
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+  <script
+    src="./JS/login.js"
+    type="module"
+  ></script>
+</body>
+
+</html>

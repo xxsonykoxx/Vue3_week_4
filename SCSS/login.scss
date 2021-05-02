@@ -1,0 +1,68 @@
+.login-body {
+  background-color: #fff !important;
+}
+input:focus {
+  outline: none;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Noto Sans TC', 'Ubuntu', sans-serif;
+  letter-spacing: 1.5px;
+}
+.container {
+  padding: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.title {
+  text-align: center;
+  font-weight: 300;
+  padding-bottom: 10px;
+  color: rgb(83, 83, 83);
+}
+
+.account,
+.password {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 40px;
+  padding-left: 40px;
+  padding-bottom: 20px;
+  label {
+    color: #6e6e6e;
+    font-weight: 300;
+  }
+  input {
+    border: 1px solid #979797;
+    border-radius: 3px;
+    letter-spacing: 1.5px;
+    font-family: 'Noto Sans TC', 'Ubuntu', sans-serif;
+    height: 33px;
+    width: 170px;
+    padding: 3px;
+    padding-left: 8px;
+    color: #aaa;
+    font-weight: 300;
+  }
+}
+.enter {
+  display: flex;
+  margin-top: 20px;
+  justify-content: center;
+}
+.enter-btn {
+  width: 120px;
+  height: 40px;
+  background-color: #fff;
+  border: 1px solid rgb(129, 129, 129);
+  border-radius: 3px;
+  color: rgb(129, 129, 129);
+  letter-spacing: 1.5px;
+  font-family: 'Noto Sans TC', 'Ubuntu', sans-serif;
+  font-weight: 300;
+  margin-left: 10px;
+  cursor: pointer;
+}

@@ -1,0 +1,90 @@
+.login-body {
+  background-color: #fff !important;
+}
+
+input:focus {
+  outline: none;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto Sans TC', 'Ubuntu', sans-serif;
+  letter-spacing: 1.5px;
+}
+
+.container {
+  padding: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.title {
+  text-align: center;
+  font-weight: 300;
+  padding-bottom: 10px;
+  color: #535353;
+}
+
+.account,
+.password {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-right: 40px;
+  padding-left: 40px;
+  padding-bottom: 20px;
+}
+
+.account label,
+.password label {
+  color: #6e6e6e;
+  font-weight: 300;
+}
+
+.account input,
+.password input {
+  border: 1px solid #979797;
+  border-radius: 3px;
+  letter-spacing: 1.5px;
+  font-family: 'Noto Sans TC', 'Ubuntu', sans-serif;
+  height: 33px;
+  width: 170px;
+  padding: 3px;
+  padding-left: 8px;
+  color: #aaa;
+  font-weight: 300;
+}
+
+.enter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 20px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.enter-btn {
+  width: 120px;
+  height: 40px;
+  background-color: #fff;
+  border: 1px solid #818181;
+  border-radius: 3px;
+  color: #818181;
+  letter-spacing: 1.5px;
+  font-family: 'Noto Sans TC', 'Ubuntu', sans-serif;
+  font-weight: 300;
+  margin-left: 10px;
+  cursor: pointer;
+}
