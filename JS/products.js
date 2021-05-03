@@ -2,6 +2,9 @@ import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.0.9/vue.
 const apiPath = `ototoki`;
 const apiUrl = `https://vue-course-api.hexschool.io/api/${apiPath}/admin`;
 
+import deleteModal from './modal/deleteModal.js';
+import addModal from './modal/productModal.js';
+
 createApp({
   data() {
     return {
@@ -10,6 +13,10 @@ createApp({
       pagination: {},
       isNew: false,
     };
+  },
+  components: {
+    addModal,
+    deleteModal,
   },
   created() {
     /* 偷啃 */
@@ -73,77 +80,6 @@ createApp({
     methods: {
       emitPages(item) {
         this.$emit('emit-pages', item);
-      },
-    },
-  })
-  .component('addModal', {
-    template: '#addModal',
-    props: ['product', 'isNew'],
-    methods: {
-      addProduct() {
-        const vm = this;
-        let api = `${apiUrl}/product`;
-        let method = 'post';
-
-        if (vm.isNew === true) {
-          api = `${apiUrl}/product/${this.product.id}`;
-          method = 'put';
-        }
-        axios[method](api, { data: vm.product }).then((res) => {
-          if (!res.data.success) return;
-          $('.modale').removeClass('opened');
-          vm.$emit('update');
-
-          if (vm.isNew === true) {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              width: 300,
-              title: '変更しました',
-              showConfirmButton: false,
-              timerProgressBar: true,
-              timer: 1500,
-            });
-          } else if (vm.isNew === false) {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              width: 300,
-              title: '追加しました',
-              showConfirmButton: false,
-              timerProgressBar: true,
-              timer: 1500,
-            });
-          }
-        });
-      },
-    },
-  })
-  .component('deleteModal', {
-    template: '#deleteModal',
-    props: ['item'],
-    methods: {
-      delProduct() {
-        const url = `${apiUrl}/product/${this.item.id}`;
-        axios
-          .delete(url)
-          .then((res) => {
-            if (!res.data.success) return;
-            $('.delmodale').removeClass('opened');
-            this.$emit('update');
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              width: 300,
-              title: '削除しました',
-              showConfirmButton: false,
-              timerProgressBar: true,
-              timer: 1500,
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
       },
     },
   })
